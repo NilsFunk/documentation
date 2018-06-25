@@ -1,0 +1,575 @@
+=== Pointer, Reference and Dynamic Memory Allocation
+
+Pointers, References and Dynamic Memory Allocation are the most powerful features in C/Cpp language, which allows programmers to directly manipulate memory to efficiently manage the memory - the most critical and scarce resource in computer - for best performance. However, "pointer" is also the most complex and difficult feature in C/C++ language. 
+
+
+Pointers are extremely powerful because they allows you to access addresses and manipulate their contents. But they are also extremely complex to handle. Using them correctly, they could greatly improve the efficiency and performance. On the other hand, using them incorrectly could lead to many problems, from un-readable and un-maintainable codes, to infamous bugs such as memory leaks and buffer overflow, which may expose your system to hacking. Many new languages (such as Java and C#) remove pointer from their syntax to avoid the pitfalls of pointers, by providing automatic memory management.
+
+==== Pointer
+
+A pointer variable (or pointer in short) is basically the same as the other variables, which can store a piece of data. Unlike normal variable which stores a value (such as an int, a double, a char), a pointer stores a memory address.
+
+===== Uninitialized Pointer
+
+When you declare a pointer variable, its content is not initialized. In other words, it contains an address of "somewhere", which is of course not a valid location. This is dangerous! You need to initialize a pointer by assigning it a valid address. This is normally done via the address-of operator (&).
+
+When you only declare a pointer, the memory for that pointer is allocated but the contents of that memory are not touched. As such, the value of the pointer, which is just a number representing some other place in memory, is whatever value happens by chance to be in that memory.
+
+It could be pointing anywhere, and the compiler will happily let you use it without initialising it. Some compilers will warn you about it.
+
+When you actually run the program, you will be accessing some random piece of memory; if you're lucky, you'll get a segfault. If you're unlucky, you'll trash data without even knowing it. 
+
+Uninitialized pointers can cause the following problems:
+* It might be pointing at memory you don't have access to, in which case it causes a segmentation fault and crashes your program
+* It might be pointing at real data, and if you don't know what it's pointing to, you're causing unpredictable (and very hard to debug) changes to your data.
+* You have no way of knowing if it's been initialized or not - because how do you tell the difference between a valid address and the address that happened to be there when you declared the pointer?
+
+Example:  
+The pointer **p** is uninitialized and points to a random location in memory when you declare it. It could be pointing into the system stack, or the global variables, or into the program's code space, or into the operating system. When you say ***p=12**;, the program will simply try to write a 12 to whatever random location p points to. The program may explode immediately, or may wait half an hour and then explode, or it may subtly corrupt data in another part of your program and you may never realize it. This can make this error very hard to track down. Make sure you initialize all pointers to a valid address before dereferencing them.
+
+[source, cpp]
+----
+int main()
+{
+    int* p;
+    *p = 56;
+}
+----
+
+===== Initializing Pointers via the Address-Of Operator (&)
+
+The address-of operator (&) operates on a variable, and returns the address of the variable. For example, if number is an int variable, &number returns the address of the variable number.
+
+You can use the address-of operator to get the address of a variable, and assign the address to a pointer variable. 
+
+Example: 
+[source, cpp]
+----
+int number = 88;     // An int variable with a value
+int * pNumber;       // Declare a pointer variable called pNumber pointing to an int (or int pointer)
+pNumber = &number;   // Assign the address of the variable number to pointer pNumber
+
+int * pAnother = &number; // Declare another int pointer and init to address of the variable number
+----
+
+===== NULL Pointer
+
+NULL Pointer is a pointer which is pointing to nothing. In case, if we don’t have address to be assigned to a pointer, then we can simply use NULL.
+
+Sometimes people recommend that pointers be assigned to NULL, the universal value meaning "this pointer doesn't point at anything", because a lot of code already checks for NULL pointers. For example, if you call free(NULL), it's guaranteed to do nothing. If you passed an uninitialized pointer in who knows what would happen.
+
+Using a NULL pointer has the following advantages:
+* If I try and dereference it, it will still segfault, but at least I can test if it's NULL and act accordingly 
+* I know that it WILL segfault, and do something else. If it's a random value, I don't know anything until it crashes.
+* If you initialize it to NULL, I can't make it point to data unless I explicitly tell it to. So I only modify what I meant to.
+* As implied above, I can tell when I've initialized it and when I haven't, and make a decision.
+
+Example:
+[source, cpp]
+----
+int *p = 0;
+int *p = NULL;
+----
+
+Usecase: 
+[source, cpp]
+----    
+int doSomething(int* x) {
+    if(x == NULL) {
+        return ERROR_CODE;
+    }
+    ...
+    // do something with x
+    ...
+    return SUCCESS;
+}
+----
+
+===== Dangling Pointer
+
+A pointer pointing to a memory location that has been deleted (or freed) is called dangling pointer. There are three different ways where Pointer acts as dangling pointer
+
+Example 01: De-allocation of memory  
+[source, cpp]
+----   
+// Deallocating a memory pointed by ptr causes dangling pointer
+int main()
+{
+    int *ptr = (int *)malloc(sizeof(int));
+
+    // After below free call, ptr becomes a dangling pointer
+    free(ptr); 
+
+    // No more a dangling pointer
+    ptr = NULL;
+}
+----
+
+Example 01: Function Call
+[source, cpp]
+----   
+// The pointer pointing to local variable becomes
+// dangling when local variable is static.
+int* fun()
+{
+    // x is local variable and goes out of
+    //scope after an execution of fun() is over.
+    int x = 5;
+    return &x;
+}
+
+int main()
+{
+    int *p = fun();
+    fflush(stdin);
+
+    // p points to something which is not
+    // valid anymore
+    printf("%d", *p);
+    return 0;
+}
+----
+
+The above problem doesn’t appear (or p doesn’t become dangling) if x is a static variable.
+[source, cpp]
+----   
+int *fun()
+{
+    // x now has scope throughout the program
+    static int x = 5;
+
+    return &x;
+}
+
+int main()
+{
+    int *p = fun();
+    fflush(stdin);
+
+    // Not a dangling pointer as it points
+    // to static variable.
+    printf("%d",*p);
+}
+----
+
+Example 03: Variable goes out of scope
+[source, cpp]
+----   
+void main()
+{
+  int *ptr;
+  .....
+  .....
+  {
+      int ch;
+      ptr = &ch;
+  } 
+  .....   
+  // Here ptr is dangling pointer
+}
+----
+
+===== void* Pointer
+
+Void pointer is a specific pointer type – void * – a pointer that points to some data location in storage, which doesn’t have any specific type. Void refers to the type. Basically the type of data that it points to is can be any. If we assign address of char data type to void pointer it will become char Pointer, if int data type then int pointer and so on. Any pointer type is convertible to a void pointer hence it can point to any value.
+Important Points
+
+Example:
+[source, cpp]
+----   
+int main()
+{
+    int x = 4;
+    float y = 5.5;
+
+    //A void pointer
+    void *ptr;
+    ptr = &x;
+
+    // (int*)ptr - does type casting of void 
+    // *((int*)ptr) dereferences the typecasted 
+    // void pointer variable.
+    printf("Integer variable is = %d", *( (int*) ptr) );
+
+    // void pointer is now float
+    ptr = &y; 
+    printf("\nFloat variable is= %f", *( (float*) ptr) );
+
+    return 0;
+}
+----
+
+* void pointers **cannot** be dereferenced. It can however be done using **typecasting** the void pointer
+
+Example: ERROR dereferencing
+[source, cpp]
+----   
+int main()
+{
+    int a = 10;
+    void *ptr = &a;
+    printf("%d", *ptr);
+    return 0;
+}
+----
+
+Example: CORRECT dereferencing
+[source, cpp]
+----   
+int main()
+{
+    int a = 10;
+    void *ptr = &a;
+    printf("%d", *(int *)ptr);
+    return 0;
+}
+----
+
+* Pointer arithmetic is not possible on pointers of void due to lack of concrete value and thus size.
+
+Example: ERROR pointer arithmetic
+[source, cpp]
+----   
+int main()
+{
+    int a[2] = {1, 2};
+    void *ptr = &a;
+    ptr = ptr + sizeof(int);
+    printf("%d", *(int *)ptr);
+    return 0;
+}
+----
+
+===== Uninitilaized Pointer vs. NULL Pointer
+
+* An uninitialized pointer stores an undefined value. 
+
+* A null pointer stores a defined value, but one that is defined by the environment to not be a valid address for any member or object. 
+
+===== Void Pointer vs. NULL Pointer
+
+* Null pointer is a value, while void pointer is a type 
+
+===== Pointer Arithmetic
+
+===== this Pointer
+
+To understand ‘**this**’ pointer, it is important to know how objects look at functions and data members of a class.
+
+* Each object gets its own copy of the data member.
+* All access the same function definition as present in the code segment.
+
+Meaning each object gets its own copy of data members and all objects share single copy of member functions. Now the question is, what if only one copy of each member function exists and is used by multiple objects, how are the proper data members are accessed and updated?
+Compiler supplies an implicit pointer along with the functions names as ‘**this**’.
+The ‘**this**’ pointer is passed as a hidden argument to **all** **nonstatic** **member** **function** **calls** and is available as a local variable within the body of all nonstatic functions. The ‘**this**’ pointer is a constant pointer that holds the memory address of the current object. The ‘**this**’ pointer is not available in static member functions as static member functions can be called without any object (with class name).
+For a class X, the type of the '**this**' pointer is ‘X* const’. Also, if a member function of X is declared as const, then the type of the '**this**' pointer is ‘const X *const’ (see this GFact)
+
+Following are the situations where ‘**this**’ pointer is used:
+
+1. When a local variable’s name is same as a member’s name
+
+Example:
+[source, cpp]
+----  
+class Test
+{
+private:
+  int x;
+public:
+  void setX (int x)
+  {
+      // The 'this' pointer is used to retrieve the object's x
+      // hidden by the local variable 'x'
+      this->x = x;
+  }
+  void print() { cout << "x = " << x << endl; }
+};
+
+int main()
+{
+  Test obj;
+  int x = 20;
+  obj.setX(x);
+  obj.print();
+  return 0;
+}
+----
+
+Output:
+
+ x = 20
+  
+For constructors, initializer list can also be used when parameter name is same as member’s name.
+
+
+2. To return reference to the calling object
+
+Example: 
+[source, cpp]
+----  
+Test& Test::func ()
+{
+  // Some processing
+  return *this;
+} 
+----
+
+When a reference to a local object is returned, the returned reference can be used to chain function calls on a single object.
+[source, cpp]
+----  
+class Test
+{
+private:
+  int x;
+  int y;
+public:
+  Test(int x = 0, int y = 0) { this->x = x; this->y = y; }
+  Test &setX(int a) { x = a; return *this; }
+  Test &setY(int b) { y = b; return *this; }
+  void print() { cout << "x = " << x << " y = " << y << endl; }
+};
+
+int main()
+{
+  Test obj1(5, 5);
+
+  // Chained function calls.  All calls modify the same object
+  // as the same object is returned by reference
+  obj1.setX(10).setY(20);
+
+  obj1.print();
+  return 0;
+}
+----
+Output:
+
+ x = 10 y = 20
+
+The type of this depends upon function declaration. If the member function of a class X is declared const, the type of this is const X* (see example 01 below), if the member function is declared volatile, the type of this is volatile X* (see example0 2 below), and if the member function is declared const volatile, the type of this is const volatile X* (see example 03 below).
+ 
+Example 01: Type const
+[source, cpp]
+----  
+class X {
+  void fun() const {
+    // this is passed as hidden argument to fun(). 
+    // Type of this is const X* 
+    }
+};
+----
+
+Example 02: Type volatile
+[source, cpp]
+----  
+class X {
+  void fun() volatile {
+    // this is passed as hidden argument to fun(). 
+    // Type of this is volatile X* 
+    }
+};
+----
+
+Example 03: Type const volatile
+[source, cpp]
+----  
+class X {
+  void fun() const volatile {
+    // this is passed as hidden argument to fun(). 
+    // Type of this is const volatile X* 
+    }
+};
+----
+
+Ideally delete operator should not be used for this pointer. However, if used, then following points must be considered.
+
+1. **delete** operator works only for objects allocated using operator new (See https://www.geeksforgeeks.org/?p=8539). If the object is created using new, then we can do delete this, otherwise behavior is undefined.
+
+Example: 
+[source, cpp]
+----  
+class A
+{
+  public:
+    void fun()
+    {
+        delete this;
+    }
+};
+
+int main()
+{
+  // Following is Valid
+  A *ptr = new A;
+  ptr->fun();
+  // make ptr NULL to make sure that things are not 
+  // accessed using ptr. 
+  ptr = NULL; 
+
+  // And following is Invalid: Undefined Behavior
+  A a;
+  a.fun();
+
+  getchar();
+  return 0;
+}
+----
+
+Compile Errors:
+
+    prog.cpp: In function 'int main()':
+    prog.cpp:15:7: error: 'NULL' was not declared in this scope
+    ptr = NULL; // make ptr NULL to make sure that things are not
+    // accessed using ptr. 
+    prog.cpp:22:9: error: 'getchar' was not declared in this scope
+    getchar();
+
+2. Once delete this is done, any member of the deleted object should not be accessed after deletion.
+
+[source, cpp]
+---- 
+class A
+{
+  int x;
+  public:
+    A() { x = 0;}
+    void fun() {
+      delete this;
+ 
+      /* Invalid: Undefined Behavior */
+      cout<<x;
+    }
+};
+----
+
+The best thing is to not do delete this at all.
+
+===== Dereferencing
+
+===== Array Decay
+
+===== const Pointer
+
+===== const char *
+
+Defines a variable pointer to a constant char, not a constant pointer to a variable char. This is the correct way to declare a pointer to a string literal, because the way you're doing it now, the compiler will let you do this:
+
+[source, cpp]
+---- 
+char * terry = "hello";
+terry[0]='H'; // no error
+----
+
+But the program will crash when you try to run it.
+However, if you try to do this:
+
+[source, cpp]
+----  
+const char * terry = "hello";
+terry[0]='H'; // error
+----
+
+The compiler won't let you. The correct way to use a variable pointer with a variable char is:
+
+[source, cpp]
+----  
+// Allocates an array of size 6 on the stack and copies to it the contents of "hello".
+char modifiable_string[]="hello";
+char *variable_pointer_to_variable_char=modifiable_string;
+----
+
+==== Smart Pointers
+C++ is about memory ownership "ownership semantics". The owner of a of a chunk of dynamically allocated memory is responsible to realse that memory.
+
+Consider the following simple C++ code with normal pointers.
+[source, cpp]
+----  
+MyClass *ptr = new MyClass();
+ptr->doSomething();
+// We must do delete(ptr) to avoid memory leak
+----
+
+Using smart pointers, we can make pointers work in way so that we don’t need to explicitly call delete. Smart pointer is a wrapper class over a pointer with operator like * and -> overloaded. The objects of smart pointer class look like pointer, but can do many things that a normal pointer can’t like automatic destruction (yes, we don’t have to explicitly use delete), reference counting and more.
+The idea is to make a class with a pointer, destructor and overloaded operators like * and ->. Since destructor is automatically called when an object goes out of scope, the dynamically allocated memory would automatically deleted (or reference count can be decremented). 
+
+Example:
+[source, cpp]
+----  
+// A generic smart pointer class
+template <class T>
+class SmartPtr
+{
+  T *ptr;  // Actual pointer
+public:
+  // Constructor
+  explicit SmartPtr(T *p = NULL) { ptr = p; }
+
+  // Destructor
+  ~SmartPtr() { delete(ptr); }
+
+  // Overloading dereferncing operator
+  T & operator * () {  return *ptr; }
+
+  // Overloding arrow operator so that members of T can be
+  // accessed like a pointer (useful if T represents a class 
+  // or struct or union type)
+  T * operator -> () { return ptr; }
+};
+
+int main()
+{
+    SmartPtr<int> ptr(new int());
+    *ptr = 20;
+    cout << *ptr;
+    return 0;
+}
+----
+
+Output:
+
+ 20
+
+===== Unique Pointer
+Can't be copied
+
+===== Shared Pointer
+Keeps track of all references.
+Memory gets freed as soon as the reference count is 0.
+
+===== Weak Pointer
+Shared pointer that does not take onwership of the entity i.e.  does not increase reference count.
+
+===== std::make_shared
+- Used for creating shared pointers for exception
+- Do not use explicit initialization for a shared pointer with **new** type, because an additioal control block is needed.
+
+===== Smart Pointers - Common Mistakes
+
+Using a shared pointer where an unique pointer suffices::
+
+1. If you have a resource that’s really meant to be owned exclusively, using a shared_ptr instead of a unique_ptr makes the code susceptible to unwanted resource leaks and bugs.  
+* Subtle Bugs: Just imagine if you never imagined a scenario where the resource is shared out by some other programmer by  assigning it to another shared pointer which inadvertently modifies the resource!
+* Unnecessary Resource Utilization: Even if the other pointer does not modify the shared resource, it might hang on to it far longer than necessary thereby hogging your RAM unnecessarily even after the original shared_ptr goes out of scope.
+
+2. Creating a shared_ptr is more resource intensive than creating a unique_ptr. A shared_ptr needs to maintain the threadsafe refcount of objects it points to and a control block under the covers which makes it more heavyweight than an unique_ptr.
+
+
+
+===== Using Smart Pointers
+
+[source, c++]
+----
+class Entity {
+ public:
+  typedef std::shared_ptr<Entity> Ptr;
+  Entity(const EntityParameters& params){...};
+  
+  void doSomething(){...};
+  ...
+}
+
+int main() {
+  Entity::Ptr ety = std::make_shared<Entity>(params);  
+  ety->doSomething();
+  return 0;
+}
+----

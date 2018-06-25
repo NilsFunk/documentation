@@ -1,0 +1,9 @@
+= C++ & Software Develpment
+:doctype: book
+:encoding: utf-8
+:source-highlighter: rouge
+:toc:
+:toclevels: 4
+
+include::chapter1-cpp.adoc[]
+include::chapter2-SD.adoc[]

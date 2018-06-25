@@ -1,0 +1,57 @@
+=== General
+
+==== Definition, Declaration, Initialization, instantiation
+Decleration::  
+* Exist somewhere  
+* Introduction of a new name  
+
+Example: 
+[source, cpp]
+----
+void xyz();
+----
+
+Definition::  
+* Exists here, allocate memory for it  
+* Definition of prefously declared name or both
+ 
+Example:  
+[source, cpp]
+----
+void xyz(){...};
+----   
+
+Instantiation::  
+* Allocating memory for object
+
+Initialization::   
+* Assignement of a value at construction-time  
+
+Example:  
+[source, cpp]
+----
+int a = 5;
+----
+
+==== Implicit vs. Explicit
+[source, cpp]
+----
+int int1 = int(0,100); // explicit
+int int2(0,100); // implicit
+----
+
+==== auto Keyword
+
+==== AnyIndex
+
+==== std::pair
+
+==== Aligned Queue
+
+==== IndexSet
+
+==== BucketQueue
+
+==== Run Time Polymorphism
+
+==== AlignedVector
