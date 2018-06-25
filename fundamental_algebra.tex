@@ -1,0 +1,39 @@
+\section{Fundamental Algebra}
+
+\subsection{Matrix Classes}
+
+\subsubsection{Rotation Matrix}
+
+$R=\begin{bmatrix} \cos \theta & \sin \theta \\ \sin \theta & \cos \theta \\ \end{bmatrix}$
+
+\begin{itemize}
+\item Orthogonal: Matrix times its transpose equals the identity $RR^T=I$
+\item Special orthogonal: Determinant is +1
+\item Closed under multiplication: The product of any two rotation matrices is another rotation matrix
+\item The inverse of a rotation matrix is also a rotation matrix
+\end{itemize}
+
+\subsubsection{Matrix Derivatives}
+$A(t)$
+\\
+
+$\dot{A}(t) = \begin{bmatrix}
+\frac{dR_{11}(t)}{dt} & \frac{dR_{12}(t)}{dt} \\
+\frac{dR_{21}(t)}{dt} & \frac{dR_{22}(t)}{dt} \\
+\end{bmatrix} $
+\\
+
+$\frac{d}{dt}(A \pm B) = \dot{A} \pm \dot{B}$
+\\
+
+$\frac{d}{dt} (AB) = \dot{A} B + A \dot {B}$
+\\
+
+$\frac{d}{dt}(A(\theta(t))) = \frac{dA}{d\theta}\dot{\theta}$
+
+\subsubsection{Jacobian}
+
+\subsubsection{Hessian}
+
+
+\subsubsection{Eigendecomposition}

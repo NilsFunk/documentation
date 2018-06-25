@@ -1,0 +1,135 @@
+\section{Fundamental Mechanics}
+
+\subsection{Coordinate Frames}
+
+\subsubsection{Inertia Frame of Reference}
+An inertial frame is a frame with constant acceleration i.e. $\mathbf{a} = 0$.  A body with zero net force acting upon it is not accelerating within the inertial frame; that is, such a body is at rest or it is moving at a constant speed in a straight line.
+
+
+
+\subsection{Sources}
+
+\subsection{Definitions}
+Transformation from coordinate frame B to frame A
+\\
+
+$^A\mathbf{A}_B, ^A\mathbf{R}_B$
+
+\subsubsection{Rigid Body Transformation}
+\begin{itemize}
+\item length is preserved $\|g(p)-g(q)\| = \|p-q\|$
+\item cross product is preserved $g_*(v) \times g_*(w) = g_*(v \times w)$
+\item inner product is preserved $g_*(v) \cdot g_*(w) = v \cdot w$
+\end{itemize}
+
+\subsection{Rotation Group SO(3)}
+
+$SO(3) = \{\mathbf{R} \in \mathbb{R} | \mathbf{R}^T\mathbf{R}=\mathbf{R}\mathbf{R}^T=\mathbf{I}, det\mathbf{R}=1 \} $
+
+\subsubsection{Rotation Matrices}
+
+\subsubsection{Euler Angles}
+
+\subsubsection{Axis Angle Parametrization}
+\textbf{Rodrigues' formula}
+
+\subsubsection{Quaternions}
+
+
+\subsection{Time Derivatives of Rotations}
+$R^T(t)R(t) =I	\frac{d}{dt}(.) \dot{R}^TR+R^T\dot{R}=0$
+\\
+
+$R(t)R^T(t) =I	\frac{d}{dt}(.) R\dot{R}^T+\dot{R}R^T=0$
+\\
+
+$R^T\dot{R}$ and $\dot{R}R^T$ are skew symmetric
+
+\subsection{Skew Symmetric}
+
+\subsubsection{Transformation vs Displacement}
+
+\subsection{Momentum}
+
+\subsubsection{Linear Momentum}
+
+\subsubsection{Angular Momentum}
+
+$^A\mathbf{H}^B_C=\mathbf{I}_C\cdot^A\omega^B$
+\\
+
+Angular momentum $\mathbf{H}$ with inertia tensor $\mathbf{I}$ with $C$ as the origin and angular velocity $\omega$ of the body $B$ in coordinate frame $A$.
+
+\subsubsection{Rate of Change of Angular Momentum}
+The rate of change of angular momentum of the rigid body $B$ relative to $C$ in $A$ is equal to the resultant moment of all external forces $\mathbf{M}$ acting on the body $B$ relative to $C$.
+\\
+
+$\frac{^Ad^A\mathbf{H}^B_C}{dt}=\mathbf{M}_C^B$
+\\
+
+Simplification 
+\\
+
+$\frac{^Bd^A\mathbf{H}^B_C}{dt} + ^A\omega^B \times \mathbf{H}_C=\mathbf{M}_C^B$
+\\
+
+$\begin{bmatrix}
+I_{11} & 0 & 0 \\
+0 & I_{22} & 0 \\
+0 & 0 & I_{33} \\
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\omega}_1 \\
+\dot{\omega}_2 \\
+\dot{\omega}_3 \\
+\end{bmatrix}
++
+\begin{bmatrix}
+0 & -\omega_3 & \omega_2 \\
+\omega_3 & 0 & -\omega_1 \\
+-\omega_2 & \omega_1 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+I_{11} & 0 & 0 \\
+0 & I_{22} & 0 \\
+0 & 0 & I_{33} \\
+\end{bmatrix}
+\begin{bmatrix}
+\omega_1 \\
+\omega_2 \\
+\omega_3 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+M_{C,1} \\
+M_{C,2} \\
+M_{C,3} \\
+\end{bmatrix}
+$
+\\
+
+The second term on the left hand side, $^A\omega^B \times \mathbf{H}_C$, is zero when angular velocity $^A\omega^B$ is perpendicular to $\mathbf{H}_C$. This is the case if the body rotates around a \textbf{principal axis of inertia}.
+ 
+\subsection{Moment of Inertia}
+The moment of inertia $\mathbf{I}$ is a tensor that determines the torque needed for a desired angular acceleration about a rotational axis; similar to how mass determines the force needed for a desired acceleration. It depends on the body's mass distribution and the axis chosen, with larger moments requiring more torque to change the body's rotation. It is an \textbf{additive} property: for a point mass the moment of inertia is just the mass $m$ times the square of the distance $r$ to the rotation axis.
+\\
+
+$ \mathbf{I} = mr^2$
+\\
+
+For bodies free to rotate in 3D, their moments can be described bz a szmmetric 3x3 matrix, with a set of mutually perpendicular \textbf{principal axes} for which this matrix is diagonal and torques around the axes act \textbf{independently} of each other.
+
+\subsubsection{Principal Axis of Inertia}
+Measured in the body frame the inertia matrix is a constant real symmetric matrix. A real symmetric matrix has the eigendecomposition into the product of a rotation matrix $\mathbf{Q}$ and a diagonal matrix $\mathbf{\Lambda}$.
+\\
+
+$\mathbf {I} _{\mathbf {C} }^{B}=\mathbf {Q} \mathbf{\Lambda} \mathbf {Q} ^{\mathsf {T}}$
+\\
+
+where
+\\
+
+$\mathbf{\Lambda} = \begin{bmatrix} I_{1} & 0 & 0 \\ 0 & I_{2} & 0 \\ 0 & 0 & I_{3} \end{bmatrix}$
+\\
+
+The columns of the rotation matrix $\mathbf{Q}$ define the directions of the principal axes of the body, and the constant $I_{1}, I_{2}$ and $I_{3}$ are called the \textbf{principal moments of inertia}.
