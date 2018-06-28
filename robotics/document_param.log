@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  24 JUN 2018 19:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.6.25)  27 JUN 2018 13:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **document_param.tex
 (./document_param.tex
-LaTeX2e <2018-04-01> patch level 2
-Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
+LaTeX2e <2016/02/01>
+Babel <3.9q> and hyphenation patterns for 81 language(s) loaded.
 
 ! LaTeX Error: \usepackage before \documentclass.
 
@@ -109,13 +109,25 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.17 \usepackage{
+l.15 \usepackage{
+                 parskip}
+\usepackage may only appear in the document preamble, i.e.,
+between \documentclass and \begin{document}.
+
+
+! LaTeX Error: \usepackage before \documentclass.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.18 \usepackage{
                  tikz}
 \usepackage may only appear in the document preamble, i.e.,
 between \documentclass and \begin{document}.
 
 ! Undefined control sequence.
-l.19 \usetikzlibrary
+l.20 \usetikzlibrary
                     [shapes]
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -130,7 +142,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.19 \usetikzlibrary[
+l.20 \usetikzlibrary[
                      shapes]
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -144,7 +156,7 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no s in font nullfont!
 Missing character: There is no ] in font nullfont!
 ! Undefined control sequence.
-l.20 \usepgflibrary
+l.21 \usepgflibrary
                    [arrows]
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -161,7 +173,7 @@ Missing character: There is no w in font nullfont!
 Missing character: There is no s in font nullfont!
 Missing character: There is no ] in font nullfont!
 ! Undefined control sequence.
-l.21 \usetikzlibrary
+l.22 \usetikzlibrary
                     {matrix}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -176,7 +188,7 @@ Missing character: There is no r in font nullfont!
 Missing character: There is no i in font nullfont!
 Missing character: There is no x in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 19--22
+Overfull \hbox (20.0pt too wide) in paragraph at lines 20--23
 []
  []
 
@@ -187,7 +199,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.33              bookmarksnumbered=true]{
+l.34              bookmarksnumbered=true]{
                                           hyperref}
 \usepackage may only appear in the document preamble, i.e.,
 between \documentclass and \begin{document}.
@@ -199,7 +211,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.36  \usepackage{
+l.37  \usepackage{
                   fancyhdr}                   %%
 \usepackage may only appear in the document preamble, i.e.,
 between \documentclass and \begin{document}.
@@ -207,7 +219,7 @@ between \documentclass and \begin{document}.
 ! Undefined control sequence.
 <argument> \undefinedpagestyle 
                                
-l.37    \pagestyle{fancy}
+l.38    \pagestyle{fancy}
                                               %%
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -216,7 +228,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.38    \fancyhf
+l.39    \fancyhf
                 {} %delete the current section for header and footer
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -231,7 +243,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.45              includeheadfoot]{
+l.46              includeheadfoot]{
                                    geometry}  %%
 \usepackage may only appear in the document preamble, i.e.,
 between \documentclass and \begin{document}.
@@ -239,7 +251,7 @@ between \documentclass and \begin{document}.
 ! Undefined control sequence.
 <argument> \headwidth 
                       
-l.46    \addtolength{\headwidth}{.75in}
+l.47    \addtolength{\headwidth}{.75in}
                                               %%
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -250,7 +262,7 @@ and I'll forget about whatever was undefined.
 ! You can't use `blank space  ' after \advance.
 \addtolength #1#2->\advance #1 
                                #2\relax 
-l.46    \addtolength{\headwidth}{.75in}
+l.47    \addtolength{\headwidth}{.75in}
                                               %%
 I'm forgetting what you said and not changing anything.
 
@@ -261,7 +273,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.46    \addtolength{\headwidth}{.75in}
+l.47    \addtolength{\headwidth}{.75in}
                                               %%
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -272,7 +284,7 @@ Missing character: There is no 5 in font nullfont!
 Missing character: There is no i in font nullfont!
 Missing character: There is no n in font nullfont!
 ! Undefined control sequence.
-l.47    \fancyhead
+l.48    \fancyhead
                   [RO,LE]{\thepage}           %%
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -288,7 +300,7 @@ Missing character: There is no L in font nullfont!
 Missing character: There is no E in font nullfont!
 Missing character: There is no ] in font nullfont!
 ! Undefined control sequence.
-l.47    \fancyhead[RO,LE]{\thepage
+l.48    \fancyhead[RO,LE]{\thepage
                                   }           %%
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -297,7 +309,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.48    \fancyhead
+l.49    \fancyhead
                   [RE,LO]{\sectionname}       %%
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -313,7 +325,7 @@ Missing character: There is no L in font nullfont!
 Missing character: There is no O in font nullfont!
 Missing character: There is no ] in font nullfont!
 ! Undefined control sequence.
-l.48    \fancyhead[RE,LO]{\sectionname
+l.49    \fancyhead[RE,LO]{\sectionname
                                       }       %%
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -322,27 +334,27 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 46--52
+Overfull \hbox (20.0pt too wide) in paragraph at lines 47--54
 []
  []
 
-\c@homework=\count80
-\c@project=\count81
+\c@homework=\count79
+\c@project=\count80
 ! TeX capacity exceeded, sorry [input stack size=5000].
 \cl@section ->\cl@section 
                           \@elt {equation}
-l.75     \@addtoreset{footnote}{section}
+l.77     \@addtoreset{footnote}{section}
                                          % Make the footnote counter reset e...
 If you really absolutely need more capacity,
 you can ask a wizard to enlarge me.
 
  
 Here is how much of TeX's memory you used:
- 21 strings out of 492649
- 309 string characters out of 6129622
- 56777 words of memory out of 5000000
- 4004 multiletter control sequences out of 15000+600000
+ 22 strings out of 493029
+ 324 string characters out of 6136234
+ 53067 words of memory out of 5000000
+ 3658 multiletter control sequences out of 15000+600000
  3640 words of font info for 14 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 5000i,0n,15p,114b,14s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 5000i,0n,14p,114b,14s stack positions out of 5000i,500n,10000p,200000b,80000s
 !  ==> Fatal error occurred, no output PDF file produced!
